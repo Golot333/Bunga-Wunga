@@ -1,0 +1,34 @@
+#myImage {
+    position: relative; /* Или absolute, если нужно абсолютное позиционирование */
+    left: -200px; /* Отодвигает изображение влево */
+    top: -130px;  /* Отодвигает изображение вверх */
+    /* Вы можете регулировать значения -20px для получения нужного эффекта */
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #8aa5d4;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+canvas {
+    border: 1px solid black;
+    background-color: #dfe3eb;
+}
+
+#startBtn {
+    position: absolute;
+    display: none;
+}
+
+#score {
+    margin-left: -150px; /* Сдвинуть текст счета влево */
+}
