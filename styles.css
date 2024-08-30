@@ -1,0 +1,53 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #8aa5d4;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow: hidden; /* Скрываем прокрутку страницы */
+}
+
+.container {
+    display: flex; /* Располагаем элементы в строку */
+}
+
+#left-container {
+    margin-right: 20px; /* Отступ справа для расстояния между канвасом и правой частью */
+}
+
+.right-container {
+    text-align: center; /* Центруем текст и элементы внутри правого контейнера */
+}
+
+#myImage {
+    margin: 20px 0; /* Отступы сверху и снизу для изображения */
+}
+
+.button-container {
+    margin: 20px 0; /* Отступы сверху и снизу для контейнера кнопок */
+}
+
+.кнопки {
+    display: block; /* Каждая кнопка будет на новой строке */
+    margin: 5px auto; /* Отступы между кнопками и выравнивание по центру */
+}
+
+#score {
+    margin-top: 20px; /* Отступ сверху для счёта */
+}
+
+canvas {
+    border: 1px solid black;
+    background-color: #ffffff;
+    margin-top: 20px; /* Отступ сверху для канваса */
+}
+
+#startBtn {
+    margin-top: 20px; /* Отступ сверху для кнопки "Начать игру" */
+}
