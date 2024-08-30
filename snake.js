@@ -7,7 +7,7 @@ const scoreElement = document.getElementById("score");
 const pauseBtn = document.getElementById("pauseBtn");
 const changeMusicBtn = document.getElementById("changeMusicBtn");
 
-const appleImages = ['images/apple.png', 'images/apple2.png', 'images/apple3.png']; // Обновление путей к изображениям
+const appleImages = ['apple.png', 'apple2.png', 'apple3.png']; // Обновление путей к изображениям
 
 let snake = [];
 let apple = {};
@@ -16,7 +16,7 @@ let snakeImage = new Image();
 let currentAppleImage = new Image();
 let isPaused = false;
 let pendingDirection = null; // Новая переменная для хранения отложенного направления
-snakeImage.src = 'images/Brezhnev.png'; // Обновление пути к изображению змейки
+snakeImage.src = 'Brezhnev.png'; // Обновление пути к изображению змейки
 
 // Инициализация игры
 function initGame() {
