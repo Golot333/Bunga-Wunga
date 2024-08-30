@@ -7,7 +7,6 @@ const audioFiles = [
     'background4.mp3',
     'background5.mp3',
     'background6.mp3',
-    'background7.mp3',
     'background8.mp3',
 ];
 
