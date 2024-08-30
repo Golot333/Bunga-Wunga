@@ -1,3 +1,5 @@
+import { playRandomBackgroundAudio, playRandomEatAudio } from './audio.js';
+
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const startBtn = document.getElementById("startBtn");
@@ -5,23 +7,7 @@ const scoreElement = document.getElementById("score");
 const pauseBtn = document.getElementById("pauseBtn");
 const changeMusicBtn = document.getElementById("changeMusicBtn");
 
-const audioFiles = [
-    'background.mp3',
-    'background2.mp3',
-    'background3.mp3',
-    'background4.mp3',
-    'background5.mp3',
-    'background6.mp3',
-    'background7.mp3',
-    'background8.mp3',
-
-];
-
-const appleImages = ['apple.png', 'apple2.png', 'apple3.png'];
-const eatAudios = [
-    new Audio('eat.mp3'),
-    new Audio('eat2.mp3'),
-];
+const appleImages = ['images/apple.png', 'images/apple2.png', 'images/apple3.png']; // Обновление путей к изображениям
 
 let snake = [];
 let apple = {};
@@ -29,43 +15,8 @@ let dx, dy, score, speed, gameInterval;
 let snakeImage = new Image();
 let currentAppleImage = new Image();
 let isPaused = false;
-let currentAudio;
-let playedTracks = [];  // Массив для отслеживания уже проигранных треков
-snakeImage.src = 'Brezhnev.png';
-
-// Воспроизведение случайного фона
-function playRandomBackgroundAudio() {
-    if (playedTracks.length === audioFiles.length) {
-        // Если все треки были проиграны, сбрасываем список
-        playedTracks = [];
-    }
-
-    // Фильтруем список треков, чтобы исключить уже проигранные
-    const availableTracks = audioFiles.filter(track => !playedTracks.includes(track));
-
-    if (availableTracks.length === 0) {
-        console.error('Нет доступных треков для воспроизведения.');
-        return;
-    }
-
-    const randomIndex = Math.floor(Math.random() * availableTracks.length);
-    const selectedTrack = availableTracks[randomIndex];
-
-    if (currentAudio) {
-        currentAudio.pause(); // Останавливаем текущую музыку
-        currentAudio.currentTime = 0; // Сбрасываем время трека
-    }
-
-    currentAudio = new Audio(selectedTrack);
-    currentAudio.volume = 0.07;
-    currentAudio.loop = true; // Зацикливаем музыку
-    currentAudio.play().catch(error => {
-        console.error('Ошибка при воспроизведении аудио:', error);
-    });
-
-    // Добавляем трек в список проигранных
-    playedTracks.push(selectedTrack);
-}
+let pendingDirection = null; // Новая переменная для хранения отложенного направления
+snakeImage.src = 'images/Brezhnev.png'; // Обновление пути к изображению змейки
 
 // Инициализация игры
 function initGame() {
@@ -80,13 +31,19 @@ function initGame() {
 
     // Воспроизведение случайного трека в начале игры
     playRandomBackgroundAudio();
-    
+
     if (gameInterval) clearInterval(gameInterval);
     gameInterval = setInterval(gameLoop, speed);
 }
 
 // Основной игровой цикл
 function gameLoop() {
+    if (pendingDirection) {
+        dx = pendingDirection.dx;
+        dy = pendingDirection.dy;
+        pendingDirection = null; // Сброс отложенного направления после применения
+    }
+
     if (!isPaused) {
         moveSnake();
         draw();
@@ -132,17 +89,6 @@ function drawApple() {
 // Обновление счётчика
 function drawScore() {
     scoreElement.innerText = `Счёт: ${score}`;
-}
-
-// Воспроизведение случайного звука поедания
-function playRandomEatAudio() {
-    const randomIndex = Math.floor(Math.random() * eatAudios.length);
-    const selectedAudio = eatAudios[randomIndex];
-    selectedAudio.currentTime = 0; // Перематываем аудио в начало
-    selectedAudio.volume = 0.03;   // Устанавливаем громкость
-    selectedAudio.play().catch(error => {
-        console.error('Ошибка при воспроизведении аудио:', error);
-    });
 }
 
 // Движение змейки
@@ -196,8 +142,7 @@ function changeDirection(event) {
     if (directions[event.key]) {
         const [newDx, newDy] = directions[event.key];
         if ((newDx !== -dx || newDy !== -dy)) { // предотвращение обратного движения
-            dx = newDx;
-            dy = newDy;
+            pendingDirection = { dx: newDx, dy: newDy };
         }
     }
 }
